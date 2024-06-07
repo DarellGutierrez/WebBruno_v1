@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Home</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        Header: <br>
+        <label>
+            [Nombre producto]
+        </label>
+        <button class="goto_home">Home</button>
+        <button class="goto_login">Ingreso</button>
+        <button class="goto_signup">Registro</button>
+        <button class="goto_contact">Contacto</button>
+    </header>
+    <hr>
+
+    <div>
+        Body:
+        <h1>[Nombre producto]</h1>
+        <h3>[Descripcion producto]</h3>
+        <img src="imagen_producto.png">
+        <p>Imagen de producto (a falta de una mejor imagen, se utiliza esta por el momento)</p>
+    </div>
+
+    <hr>
+    <footer>
+        Footer:
+        <h3>[Nombre producto] - Proyectos en tics 1 - 2024</h3>
+        <p>Talvez sacar el footer que no suma demasiado que digamos.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            $('.goto_home').click(function() {
+                window.location.href = '/home';
+            });
+            $('.goto_login').click(function() {
+                window.location.href = '/login';
+            });
+            $('.goto_signup').click(function() {
+                window.location.href = '/signup';
+            });
+            $('.goto_contact').click(function() {
+                window.location.href = '/contact';
+            });
+        });
+    </script>
+</body>
+</html>

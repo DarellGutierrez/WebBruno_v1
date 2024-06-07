@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Home</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js library -->
+</head>
+<body>
+
+    <header>
+        Header: <br>
+        <label>
+            [Nombre producto]
+        </label>
+        <button class="goto_exit">Salir</button>
+        <button class="goto_overview">General</button>
+        <button class="goto_statistics">Estadisticas</button>
+    </header>
+    <hr>
+
+    <div>
+        Body:
+        <h1>Estadisticas</h1>
+        <div id="graficos">
+            <div id="temperatura" style="width: 600px; height: 300px;">
+                <h2>Temperatura:</h2>
+                <canvas id="temperaturaChart" width="600" height="300"></canvas> <!-- Adjusted dimensions -->
+            </div><br><br>
+
+            <div id="humedad" style="width: 600px; height: 300px;">
+                <h2>Humedad:</h2>
+                <canvas id="humedadChart" width="600" height="300"></canvas> <!-- Adjusted dimensions -->
+            </div><br><br>
+
+            <div id="metano" style="width: 600px; height: 300px;">
+                <h2>Gas metano:</h2>
+                <canvas id="metanoChart" width="600" height="300"></canvas> <!-- Adjusted dimensions -->
+            </div><br><br>
+
+            <div id="ambiente" style="width: 600px; height: 300px;">
+                <h2>Gas ambiente:</h2>
+                <canvas id="ambienteChart" width="600" height="300"></canvas> <!-- Adjusted dimensions -->
+            </div><br><br>
+
+            <div id="ruido" style="width: 600px; height: 300px;">
+                <h2>Ruido ambiente:</h2>
+                <canvas id="ruidoChart" width="600" height="300"></canvas> <!-- Adjusted dimensions -->
+            </div><br><br>
+        </div>
+    </div>
+
+    <br>
+
+    <hr>
+    <footer>
+        Footer:
+        <h3>[Nombre producto] - Proyectos en tics 1 - 2024</h3>
+        <p>Talvez sacar el footer que no suma demasiado que digamos.</p>
+    </footer>
+    
+<script>  
+$(document).ready(function() {
+    // Define chart configurations
+    const chartConfig = {
+        type: 'line',
+        data: {
+            labels: [], // Time labels will be dynamically added
+            datasets: [{
+                label: '', // Leave it empty for now
+                data: [],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: '' // Leave it empty for now
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false // Disable the legend
+                }
+            }
+        }
+    };
+    
+    // Function to fetch data and update charts
+    function fetchAndDrawCharts() {
+        $.ajax({
+            url: '/showData',
+            method: 'GET',
+            success: function(response) {
+                // Update chart data and labels for each parameter
+                ['temperatura', 'humedad', 'metano', 'ambiente', 'ruido'].forEach(function(param) {
+                    const canvasId = `${param}Chart`;
+                    const ctx = document.getElementById(canvasId).getContext('2d');
+                    chartConfig.data.labels = response[param].map(data => data.time);
+                    chartConfig.data.datasets[0].data = response[param].map(data => data.value);
+                    chartConfig.data.datasets[0].label = param; // Set the label to the parameter name
+                    chartConfig.options.scales.y.title.text = param; // Set the y-axis label to the parameter name
+                    new Chart(ctx, chartConfig);
+                });
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
+    
+    fetchAndDrawCharts(); // Initial fetch and draw
+    
+    setInterval(fetchAndDrawCharts, 1000); // Update charts every second
+    
+    $('.goto_exit').click(function() {
+        window.location.href = '/exit';
+    });
+    $('.goto_overview').click(function() {
+        window.location.href = '/overview';
+    });
+    $('.goto_statistics').click(function() {
+        window.location.href = '/statistics';
+    });
+
+    // Enable buttons on top of each graph
+    $('.goto_exit, .goto_overview, .goto_statistics').prop('disabled', false);
+});
+</script>    
+</body>
+</html>

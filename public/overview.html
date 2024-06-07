@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Home</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        Header: <br>
+        <label>
+            [Nombre producto]
+        </label>
+        <button class="goto_exit">Salir</button>
+        <button class="goto_overview">General</button>
+        <button class="goto_statistics">Estadisticas</button>
+    </header>
+    <hr>
+
+    <div>
+        Body:
+        <h1>Vista general</h1>
+        <div id="mediciones">
+            <div id="temperatura">
+                <h2>Temperatura:</h2>
+                <h3 id="current-temperatura"></h3>
+                <h3 id="current-temperatura-range"></h3>
+            </div>
+            <div id="humedad">
+                <h2>Humedad:</h2>
+                <h3 id="current-humedad"></h3>
+                <h3 id="current-humedad-range"></h3>
+            </div>
+            <div id="metano">
+                <h2>Gas metano:</h2>
+                <h3 id="current-metano"></h3>
+                <h3 id="current-metano-range"></h3>
+            </div>
+            <div id="ambiente">
+                <h2>Gas ambiente:</h2>
+                <h3 id="current-ambiente"></h3>
+                <h3 id="current-ambiente-range"></h3>
+            </div>
+            <div id="ruido">
+                <h2>Ruido ambiente:</h2>
+                <h3 id="current-ruido"></h3>
+                <h3 id="current-ruido-range"></h3>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <footer>
+        Footer:
+        <h3>[Nombre producto] - Proyectos en tics 1 - 2024</h3>
+        <p>Talvez sacar el footer que no suma demasiado que digamos.</p>
+    </footer>
+
+<script>
+$(document).ready(function() {
+
+    function fetchLatestData() {
+        $.ajax({
+            url: '/getLatestData',
+            method: 'GET',
+            success: function(response) {
+                $('#current-temperatura').text(response.temperatura);
+                $('#current-humedad').text(response.humedad);
+                $('#current-metano').text(response.metano);
+                $('#current-ambiente').text(response.ambiente);
+                $('#current-ruido').text(response.ruido);
+
+                // Check if the values are within acceptable ranges
+                if (response.temperatura >= 20 && response.temperatura <= 25) {
+                    $('#current-temperatura-range').text('Esta dentro del rango de temperatura aceptable.');
+                } else {
+                    $('#current-temperatura-range').text('La temperatura esta fuera de un rango recomendable. [20-25°c]');
+                }
+
+                if (response.humedad >= 40 && response.humedad <= 60) {
+                    $('#current-humedad-range').text('Esta dentro del rango de humedad aceptable.');
+                } else {
+                    $('#current-humedad-range').text('La humedad esta fuera de un rango recomendable. [40-60]%');
+                }
+
+                if (response.metano < 1000) {
+                    $('#current-metano-range').text('Esta dentro del rango de gas metano aceptable.');
+                } else {
+                    $('#current-metano-range').text('La cantidad de gas metano esta fuera de un rango recomendable. <1000ppm');
+                }
+
+                if (response.ambiente < 1000) {
+                    $('#current-ambiente-range').text('Esta dentro del rango de gas ambiente aceptable.');
+                } else {
+                    $('#current-ambiente-range').text('La cantidad de gas ambiente esta fuera de un rango recomendable. <1000ppm');
+                }
+
+                if (response.ruido < 60) {
+                    $('#current-ruido-range').text('Esta dentro del rango de ruido aceptable.');
+                } else {
+                    $('#current-ruido-range').text('La cantidad de ruido ambiente esta fuera de un rango recomendable. <60dB');
+                }
+            },
+            error: function(error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
+
+    fetchLatestData();
+    setInterval(fetchLatestData, 1000);
+
+    $('.goto_exit').click(function() {
+        window.location.href = '/exit';
+    });
+    $('.goto_overview').click(function() {
+        window.location.href = '/overview';
+    });
+    $('.goto_statistics').click(function() {
+        window.location.href = '/statistics';
+    });
+});
+</script>
+</body>
+</html>

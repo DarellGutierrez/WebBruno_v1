@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        Header: <br>
+        <label>
+            [Nombre producto]
+        </label>
+        <button class="goto_home">Home</button>
+        <button class="goto_login">Ingreso</button>
+        <button class="goto_signup">Registro</button>
+        <button class="goto_contact">Contacto</button>
+    </header>
+    <hr>
+
+    <div>
+        Body:
+        <h1>Ingreso</h1>
+			<form id="loginForm" action="/log_user" method="POST">
+				<h3>Nombre de usuario:</h3>
+				<input type="text" name="username" required> <br>
+				<h3>Contraseña:</h3>
+				<input type="password" name="password" required> <br><br>
+				<button type="submit">Ingresar</button> <br>
+			</form>
+
+		<h3>No tienes una cuenta? <a class="goto_signup" href="#">Registrate</a>.</h3>
+    </div>
+
+    <hr>
+    <footer>
+        Footer:
+        <h3>[Nombre producto] - Proyectos en tics 1 - 2024</h3>
+        <p>Talvez sacar el footer que no suma demasiado que digamos.</p>
+    </footer>
+
+<script>
+$(document).ready(function() {
+    $('.goto_home').click(function() {
+        window.location.href = '/home';
+    });
+    $('.goto_login').click(function() {
+        window.location.href = '/login';
+    });
+    $('.goto_signup').click(function() {
+        window.location.href = '/signup';
+    });
+    $('.goto_contact').click(function() {
+        window.location.href = '/contact';
+    });
+});
+
+$('#loginForm').submit(function(event) {
+    event.preventDefault();
+    
+    const username = $('[name="username"]').val();
+    const password = $('[name="password"]').val();
+
+    fetch('/log_user', {
+        method: 'POST',
+        body: JSON.stringify({ username, password }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('No se pudo iniciar sesión');
+        }
+        return response.text();
+    })
+    .then(message => {
+        alert(message);
+        window.location.href = '/overview';
+    })
+    .catch(error => {
+        alert('Error al iniciar sesión: ' + error.message);
+    });
+});
+
+</script>
+</body>
+</html>

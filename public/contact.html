@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Contact</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        Header: <br>
+        <label>
+            [Nombre producto]
+        </label>
+        <button class="goto_home">Home</button>
+        <button class="goto_login">Ingreso</button>
+        <button class="goto_signup">Registro</button>
+        <button class="goto_contact">Contacto</button>
+    </header>
+    <hr>
+
+    <div>
+        Body:
+        <h1>Contacto</h1> <br><br>
+            <div>
+                <h2>Bastián Lobos</h3>
+                <p>bastian.lobos@mail.udp.cl</p>
+                <p>+56 9 9601 6360</p>
+                <img src="Bastian_Lobos.jpg" width="200px">
+                <p>Imagen generica de prueba</p>
+            </div>
+            <div>
+                <h2>Bruno Figueroa</h3>
+                <p>bruno.figueroa@mail.udp.cl</p>
+                <p>+56 9 42977521</p>
+                <img src="Bruno_Figueroa.jpg" width="200px">
+                <p>Imagen generica de prueba</p>
+            </div>
+            <div>
+                <h2>Darell Gutierrez</h3>
+                <p>darell.gutierrez@mail.udp.cl</p>
+                <p>+56 9 6692 1117</p>
+                <img src="Darell_Gutierrez.jpg" width="200px">
+                <p>Imagen generica de prueba</p>
+            </div>
+            <div>
+                <h2>Jose Martinez</h3>
+                <p>jose.martinez@mail.udp.cl</p>
+                <p>+56 9 4257 5697</p>
+                <img src="Jose_Martinez.jpg" width="200px">
+                <p>Imagen generica de prueba</p>
+            </div>
+
+    </div>
+
+    <hr>
+    <footer>
+        Footer:
+        <h3>[Nombre producto] - Proyectos en tics 1 - 2024</h3>
+        <p>Talvez sacar el footer que no suma demasiado que digamos.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            $('.goto_home').click(function() {
+                window.location.href = '/home';
+            });
+            $('.goto_login').click(function() {
+                window.location.href = '/login';
+            });
+            $('.goto_signup').click(function() {
+                window.location.href = '/signup';
+            });
+            $('.goto_contact').click(function() {
+                window.location.href = '/contact';
+            });
+        });
+    </script>
+</body>
+</html>

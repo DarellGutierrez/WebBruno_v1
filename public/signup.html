@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Signup</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        Header: <br>
+        <label>
+            [Nombre producto]
+        </label>
+        <button class="goto_home">Home</button>
+        <button class="goto_login">Ingreso</button>
+        <button class="goto_signup">Registro</button>
+        <button class="goto_contact">Contacto</button>
+    </header>
+    <hr>
+
+    <div>
+        Body:
+        <h1>Registro</h1>
+			<form id="signupForm" action="/sign_user" method="POST">
+				<h3>Nombre de usuario:</h3>
+				<input type="text" name="username" required> <br>
+				<h3>Contraseña:</h3>
+				<input type="password" name="password1" required> <br>
+                <h3>Repite la contraseña:</h3>
+				<input type="password" name="password2" required> <br><br>
+				<button type="submit">Registrarse</button> <br>
+			</form>
+
+		<h3>Ya tienes una cuenta? <a class="goto_login" href="#">Ingresa</a>.</h3>
+    </div>
+
+    <hr>
+    <footer>
+        Footer:
+        <h3>[Nombre producto] - Proyectos en tics 1 - 2024</h3>
+        <p>Talvez sacar el footer que no suma demasiado que digamos.</p>
+    </footer>
+
+<script>
+$(document).ready(function() {
+    $('.goto_home').click(function() {
+            window.location.href = '/home';
+    });
+    $('.goto_login').click(function() {
+        window.location.href = '/login';
+    });
+    $('.goto_signup').click(function() {
+        window.location.href = '/signup';
+    });
+    $('.goto_contact').click(function() {
+        window.location.href = '/contact';
+    });
+});
+
+$('#signupForm').submit(function(event) {
+    event.preventDefault();
+    
+    const username = $('[name="username"]').val();
+    const password1 = $('[name="password1"]').val();
+    const password2 = $('[name="password2"]').val();
+
+    fetch('/sign_user', {
+        method: 'POST',
+        body: JSON.stringify({ username, password1, password2 }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al registrar usuario');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert(data.message);
+        window.location.href = '/login';
+    })
+    .catch(error => {
+        alert('El usuario ya existe');
+    });
+});
+</script>
+</body>
+</html>
